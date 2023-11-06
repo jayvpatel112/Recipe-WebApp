@@ -1,0 +1,63 @@
+{% extends "base.html"%}
+{% load static %}
+
+{%block body %}
+
+<div class="container mt-5">
+
+    <form class="col-6 mx-auto card p-3" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2> Add Recipes</h2>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Recipe Name</label>
+          <input type="text" name="recipe_name" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Recipe Discription</label>
+          <textarea name="recipe_description" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Recipe Image</label>
+            <input name="recipe_image" type="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Recipe</button>
+      </form>
+    
+      <div class="mt-5">
+        <div class="mx-auto col-6">
+          <form>
+          <div class="mb-3">
+            <label for="SearchFood" class="form-label">Search Recipe</label>
+            <input type="text" name="search" class="form-control">
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Recipes Name</th>
+            <th scope="col">Recipes Description</th>
+            <th scope="col">Recipes Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for recipe in recipes%}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{recipe.recipe_name}}</td>
+            <td>{{recipe.recipe_description}}</td>
+            <td><img src='{{recipe.recipe_image.url}}' alt="my image" style="height: 200px; width: 100px;"></td>
+            <td><a href='/delete-recipe/{{recipe.id}}' class="btn btn-danger">Delete</a></td>
+            <td><a href='/update-recipe/{{recipe.id}}' class="btn btn-success">Update</a></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+</div>
+
+{%endblock%}
